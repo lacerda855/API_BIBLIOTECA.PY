@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Digital Modern</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #090d16;
+            --bg-surface: rgba(19, 26, 42, 0.75);
+            --bg-card: rgba(27, 38, 59, 0.6);
+            --bg-input: rgba(13, 18, 30, 0.8);
+            
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(99, 102, 241, 0.4);
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            
+            --brand-primary: #6366f1;
+            --brand-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            --accent-cyan: #06b6d4;
+            --accent-glow: rgba(99, 102, 241, 0.25);
+            
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.12);
+            --success: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.12);
+            
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --radius-sm: 6px;
+            
+            --shadow-glow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--bg-body);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(217, 70, 239, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- LOGIN SCREEN --- */
+        .login-screen {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .login-card {
+            width: min(440px, 100%);
+            background: var(--bg-surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .login-head {
+            padding: 36px 32px 20px;
+            text-align: center;
+        }
+
+        .brand-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 18px;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            background: var(--brand-gradient);
+            color: #fff;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .brand-logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .login-head h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            margin-top: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .login-body {
+            padding: 20px 32px 36px;
+        }
+
+        /* --- APP SCREEN --- */
+        .app {
+            width: min(1300px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 30px 0 50px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .title-block {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        /* --- METRICS / SUMMARY --- */
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .metric {
+            background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .metric:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+        }
+
+        .metric::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--brand-gradient);
+        }
+
+        .metric span {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+
+        .metric strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #fff;
+        }
+
+        /* --- LAYOUT GRID --- */
+        .layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .panel-header h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .panel-body {
+            padding: 24px;
+        }
+
+        /* --- FORMS & INPUTS --- */
+        form {
+            display: grid;
+            gap: 16px;
+        }
+
+        label {
+            display: grid;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+            background: rgba(13, 18, 30, 0.95);
+        }
+
+        input::placeholder {
+            color: rgba(156, 163, 175, 0.4);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        /* --- BUTTONS --- */
+        button {
+            border: 0;
+            border-radius: var(--radius-md);
+            padding: 12px 18px;
+            background: var(--brand-gradient);
+            color: #fff;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-glow);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        button.secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-main);
+            box-shadow: none;
+            border: 1px solid var(--border-color);
+        }
+
+        button.secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        button.danger {
+            background: var(--danger);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+        }
+
+        button.danger:hover {
+            background: #dc2626;
+        }
+
+        button.ghost {
+            background: transparent;
+            color: var(--text-muted);
+            box-shadow: none;
+            border: 1px solid var(--border-color);
+        }
+
+        button.ghost:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- TABS & TOOLBAR --- */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            padding: 16px 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            border-bottom: 2px solid transparent;
+            border-radius: 0;
+            padding: 10px 16px;
+            font-weight: 600;
+            box-shadow: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--text-main);
+            transform: none;
+        }
+
+        .tab.active {
+            color: #fff;
+            border-bottom-color: var(--brand-primary);
+            background: transparent;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            padding: 18px 20px;
+            align-items: center;
+        }
+
+        .toolbar input {
+            max-width: 280px;
+        }
+
+        /* --- TABLE --- */
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+
+        tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            font-weight: 700;
+            font-size: 0.82rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .row-actions button {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: var(--radius-sm);
+        }
+
+        /* --- ALERTS & MODAL --- */
+        .alert {
+            display: none;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-size: 0.88rem;
+            font-weight: 600;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .alert.success {
+            display: block;
+            color: #34d399;
+            background: var(--success-bg);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .alert.error {
+            display: block;
+            color: #f87171;
+            background: var(--danger-bg);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .empty {
+            padding: 40px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        dialog {
+            width: min(440px, calc(100% - 32px));
+            background: var(--bg-surface);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            color: var(--text-main);
+            padding: 0;
+            box-shadow: var(--shadow-card);
+            margin: auto;
+        }
+
+        dialog::backdrop {
+            background: rgba(5, 8, 15, 0.75);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-head {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 960px) {
+            .layout, .summary {
+                grid-template-columns: 1fr;
+            }
+            .toolbar {
+                flex-wrap: wrap;
+            }
+            .toolbar input {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN -->
+    <section id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-head">
+                <div class="brand-logo" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v17H7.5A2.5 2.5 0 0 0 5 21.5v-17Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M5 4.5A2.5 2.5 0 0 0 2.5 2H2v17h.5A2.5 2.5 0 0 1 5 21.5" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 6h8M8 10h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h1>Biblioteca Digital</h1>
+                <p class="subtitle">Acesse o sistema de acervo e emprestimos</p>
+            </div>
+            <div class="login-body">
+                <div id="login-alert" class="alert"></div>
+                <form id="login-form">
+                    <label>
+                        Usuario
+                        <input id="login-user" type="text" required autocomplete="username" placeholder="seu usuario">
+                    </label>
+                    <label>
+                        Senha
+                        <input id="login-pass" type="password" required autocomplete="current-password" placeholder="sua senha">
+                    </label>
+                    <button type="submit">Entrar no Sistema</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAINEL PRINCIPAL -->
+    <main id="app-screen" class="app hidden">
+        <header>
+            <div class="title-block">
+                <div class="brand-logo" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v17H7.5A2.5 2.5 0 0 0 5 21.5v-17Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M5 4.5A2.5 2.5 0 0 0 2.5 2H2v17h.5A2.5 2.5 0 0 1 5 21.5" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 6h8M8 10h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>Biblioteca Digital</h1>
+                    <p class="subtitle">Gestao de acervo, disponibilidade e controle de emprestimos</p>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="ghost" id="btn-logout">Sair</button>
+            </div>
+        </header>
+
+        <section class="summary">
+            <div class="metric">
+                <span>Livros Cadastrados</span>
+                <strong id="total-livros">0</strong>
+            </div>
+            <div class="metric">
+                <span>Exemplares Disponiveis</span>
+                <strong id="total-disponiveis">0</strong>
+            </div>
+            <div class="metric">
+                <span>Emprestimos Ativos</span>
+                <strong id="total-emprestados">0</strong>
+            </div>
+        </section>
+
+        <section class="layout">
+            <!-- FORMULÁRIO DE CADASTRO/EDIÇÃO COM OS NOVOS LIVROS -->
+            <aside class="panel">
+                <div class="panel-header">
+                    <h2 id="form-title">Cadastrar Novo Livro</h2>
+                </div>
+                <div class="panel-body">
+                    <div id="form-alert" class="alert"></div>
+                    <form id="book-form">
+                        <input type="hidden" id="livro-id">
+                        <label>
+                            Titulo
+                            <input id="titulo" type="text" required maxlength="150" placeholder="Ex.: Grande Sertao: Veredas">
+                        </label>
+                        <label>
+                            Autor
+                            <input id="autor" type="text" required maxlength="100" placeholder="Ex.: Joao Guimaraes Rosa">
+                        </label>
+                        <label>
+                            Editora
+                            <input id="editora" type="text" required maxlength="100" placeholder="Ex.: Nova Fronteira">
+                        </label>
+                        <div class="grid-2">
+                            <label>
+                                Ano
+                                <input id="ano" type="number" required min="1" max="2100" placeholder="1956">
+                            </label>
+                            <label>
+                                Estoque
+                                <input id="estoque" type="number" required min="0" placeholder="5">
+                            </label>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" id="btn-save" style="flex: 1;">Salvar Livro</button>
+                            <button type="button" class="ghost" id="btn-clear">Limpar</button>
+                        </div>
+                    </form>
+                </div>
+            </aside>
+
+            <!-- LISTAGENS -->
+            <section class="panel">
+                <div class="tabs" role="tablist">
+                    <button class="tab active" data-view="todos" type="button">Todos os Livros</button>
+                    <button class="tab" data-view="disponiveis" type="button">Em Estoque</button>
+                    <button class="tab" data-view="emprestados" type="button">Emprestados</button>
+                    <button class="tab" data-view="abertos" type="button">Devolucoes</button>
+                </div>
+
+                <div class="toolbar">
+                    <input id="busca-id" type="number" min="1" placeholder="Buscar livro por ID...">
+                    <button type="button" id="btn-search">Buscar</button>
+                    <button type="button" class="secondary" id="btn-refresh">Atualizar</button>
+                </div>
+
+                <div id="table-alert" class="alert" style="margin: 0 20px 14px;"></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead id="table-head"></thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <!-- MODAL DE EMPRÉSTIMO -->
+    <dialog id="loan-modal">
+        <div class="modal-head">
+            <h2>Realizar Emprestimo</h2>
+        </div>
+        <div class="modal-body">
+            <form id="loan-form">
+                <input type="hidden" id="loan-livro-id">
+                <label>
+                    Livro Selecionado
+                    <input id="loan-livro-titulo" type="text" disabled>
+                </label>
+                <label>
+                    Nome do Leitor / Aluno
+                    <input id="loan-nome" type="text" required maxlength="100" placeholder="Digite o nome completo">
+                </label>
+                <div class="actions">
+                    <button type="submit" style="flex: 1;">Confirmar Emprestimo</button>
+                    <button type="button" class="ghost" id="btn-close-loan">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <script>
+        const API_URL = "http://127.0.0.1:5000";
+        const CHAVE_SESSAO = "biblioteca_sessao";
+        let sessao = null; // { token, usuario, tipo, permissoes }
+        let currentView = "todos";
+
+        const head = document.getElementById("table-head");
+        const body = document.getElementById("table-body");
+        const form = document.getElementById("book-form");
+        const modal = document.getElementById("loan-modal");
+
+        document.addEventListener("DOMContentLoaded", () => {
+            bindEvents();
+            try { sessao = JSON.parse(sessionStorage.getItem(CHAVE_SESSAO)); } catch { sessao = null; }
+            if (sessao && sessao.token) {
+                mostrarSistema();
+            }
+        });
+
+        function bindEvents() {
+            document.getElementById("login-form").addEventListener("submit", fazerLogin);
+            document.getElementById("btn-logout").addEventListener("click", fazerLogout);
+            form.addEventListener("submit", salvarLivro);
+            document.getElementById("btn-clear").addEventListener("click", limparFormulario);
+            document.getElementById("btn-refresh").addEventListener("click", carregarDados);
+            document.getElementById("btn-search").addEventListener("click", consultarPorId);
+            document.getElementById("loan-form").addEventListener("submit", confirmarEmprestimo);
+            document.getElementById("btn-close-loan").addEventListener("click", () => modal.close());
+
+            document.querySelectorAll(".tab").forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    document.querySelectorAll(".tab").forEach((item) => item.classList.remove("active"));
+                    tab.classList.add("active");
+                    currentView = tab.dataset.view;
+                    document.getElementById("busca-id").value = "";
+                    carregarDados();
+                });
+            });
+        }
+
+        async function fazerLogin(event) {
+            event.preventDefault();
+            const usuario = document.getElementById("login-user").value.trim();
+            const senha = document.getElementById("login-pass").value;
+
+            try {
+                const res = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ login: usuario, senha }),
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.erro || "Falha na autenticacao");
+
+                sessao = { token: data.token, usuario: data.usuario, tipo: data.tipo, permissoes: data.permissoes };
+                sessionStorage.setItem(CHAVE_SESSAO, JSON.stringify(sessao));
+                document.getElementById("login-form").reset();
+                limparAlerta("login-alert");
+                mostrarSistema();
+            } catch (err) {
+                const semConexao = err instanceof TypeError;
+                mostrarAlerta("login-alert", semConexao ? "Nao foi possivel conectar a API." : err.message, "error");
+            }
+        }
+
+        function fazerLogout(mensagem) {
+            sessao = null;
+            sessionStorage.removeItem(CHAVE_SESSAO);
+            document.getElementById("app-screen").classList.add("hidden");
+            document.getElementById("login-screen").classList.remove("hidden");
+            document.getElementById("login-user").focus();
+            if (typeof mensagem === "string") mostrarAlerta("login-alert", mensagem, "error");
+        }
+
+        function pode(permissao) {
+            return !!sessao && sessao.permissoes.includes(permissao);
+        }
+
+        function aplicarPermissoes() {
+            const podeEscrever = pode("livros:escrever");
+            document.querySelector(".layout > aside.panel").classList.toggle("hidden", !podeEscrever);
+            document.querySelector(".layout").style.gridTemplateColumns = podeEscrever ? "" : "1fr";
+            document.querySelector('.tab[data-view="abertos"]').classList.toggle("hidden", !pode("emprestimos:ler"));
+        }
+
+        function mostrarSistema() {
+            document.getElementById("login-screen").classList.add("hidden");
+            document.getElementById("app-screen").classList.remove("hidden");
+            aplicarPermissoes();
+            currentView = "todos";
+            ativarAba("todos");
+            carregarDados();
+        }
+
+        async function api(path, options = {}) {
+            const headers = { "Content-Type": "application/json" };
+            if (sessao && sessao.token) headers.Authorization = `Bearer ${sessao.token}`;
+
+            const res = await fetch(`${API_URL}${path}`, { ...options, headers });
+            const data = await res.json();
+            if (res.status === 401) {
+                fazerLogout(data.erro || "Sessao expirada. Entre novamente.");
+                throw new Error(data.erro || "Sessao expirada");
+            }
+            if (!res.ok) {
+                throw new Error(data.erro || "Erro na requisicao");
+            }
+            return data;
+        }
+
+        async function carregarDados() {
+            limparAlerta("table-alert");
+            await atualizarResumo();
+
+            try {
+                if (currentView === "todos") {
+                    renderLivros(await api("/livros"));
+                } else if (currentView === "disponiveis") {
+                    renderLivros(await api("/livros-disponiveis"));
+                } else if (currentView === "emprestados") {
+                    renderEmprestados(await api("/livros-emprestados"));
+                } else {
+                    renderEmprestimosAbertos(await api("/emprestimos-abertos"));
+                }
+                setApiStatus(true);
+            } catch (err) {
+                setApiStatus(false);
+                mostrarAlerta("table-alert", err.message || "Nao foi possivel conectar a API.", "error");
+                renderEmpty("Nao foi possivel carregar os dados.");
+            }
+        }
+
+        async function atualizarResumo() {
+            try {
+                const [livros, disponiveis, emprestados] = await Promise.all([
+                    api("/livros"),
+                    api("/livros-disponiveis"),
+                    api("/livros-emprestados"),
+                ]);
+                document.getElementById("total-livros").textContent = livros.length;
+                document.getElementById("total-disponiveis").textContent = disponiveis.reduce((soma, livro) => soma + Number(livro.estoque || 0), 0);
+                document.getElementById("total-emprestados").textContent = emprestados.reduce((soma, livro) => soma + Number(livro.quantidade_emprestada || 0), 0);
+                setApiStatus(true);
+            } catch {
+                setApiStatus(false);
+            }
+        }
+
+        async function salvarLivro(event) {
+            event.preventDefault();
+            const id = document.getElementById("livro-id").value;
+            const payload = {
+                titulo: document.getElementById("titulo").value.trim(),
+                autor: document.getElementById("autor").value.trim(),
+                editora: document.getElementById("editora").value.trim(),
+                ano: Number(document.getElementById("ano").value),
+                estoque: Number(document.getElementById("estoque").value),
+            };
+
+            try {
+                const path = id ? `/livros/${id}` : "/livros";
+                const method = id ? "PUT" : "POST";
+                const data = await api(path, { method, body: JSON.stringify(payload) });
+                mostrarAlerta("form-alert", data.mensagem, "success");
+                limparFormulario();
+                currentView = "todos";
+                ativarAba("todos");
+                await carregarDados();
+            } catch (err) {
+                mostrarAlerta("form-alert", err.message, "error");
+            }
+        }
+
+        async function consultarPorId() {
+            const id = document.getElementById("busca-id").value;
+            if (!id) {
+                carregarDados();
+                return;
+            }
+
+            try {
+                currentView = "todos";
+                ativarAba("todos");
+                renderLivros([await api(`/livros/${id}`)]);
+            } catch (err) {
+                mostrarAlerta("table-alert", err.message, "error");
+                renderEmpty("Livro nao encontrado.");
+            }
+        }
+
+        function renderLivros(livros) {
+            head.innerHTML = `
+                <tr>
+                    <th>ID</th>
+                    <th>Titulo</th>
+                    <th>Autor</th>
+                    <th>Editora</th>
+                    <th>Ano</th>
+                    <th>Estoque</th>
+                    <th>Acoes</th>
+                </tr>
+            `;
+
+            if (!livros.length) {
+                renderEmpty("Nenhum livro encontrado.", 7);
+                return;
+            }
+
+            body.innerHTML = livros.map((livro) => `
+                <tr>
+                    <td>#${livro.id}</td>
+                    <td><strong>${escapeHtml(livro.titulo)}</strong></td>
+                    <td>${escapeHtml(livro.autor)}</td>
+                    <td>${escapeHtml(livro.editora)}</td>
+                    <td>${livro.ano}</td>
+                    <td><span class="badge">${livro.estoque}</span></td>
+                    <td>
+                        <div class="row-actions">
+                            ${pode("livros:escrever") ? `<button type="button" class="secondary" onclick='editarLivro(${escapeHtml(JSON.stringify(livro))})'>Editar</button>` : ""}
+                            ${pode("emprestimos:gerenciar") ? `<button type="button" onclick='abrirEmprestimo(${livro.id}, ${escapeHtml(JSON.stringify(livro.titulo))}, ${livro.estoque})'>Emprestar</button>` : ""}
+                            ${pode("livros:escrever") ? `<button type="button" class="danger" onclick="excluirLivro(${livro.id})">Excluir</button>` : ""}
+                        </div>
+                    </td>
+                </tr>
+            `).join("");
+        }
+
+        function renderEmprestados(livros) {
+            head.innerHTML = `
+                <tr>
+                    <th>ID</th>
+                    <th>Titulo</th>
+                    <th>Autor</th>
+                    <th>Quantidade emprestada</th>
+                </tr>
+            `;
+
+            if (!livros.length) {
+                renderEmpty("Nenhum livro emprestado.", 4);
+                return;
+            }
+
+            body.innerHTML = livros.map((livro) => `
+                <tr>
+                    <td>#${livro.id}</td>
+                    <td><strong>${escapeHtml(livro.titulo)}</strong></td>
+                    <td>${escapeHtml(livro.autor)}</td>
+                    <td><span class="badge">${livro.quantidade_emprestada}</span></td>
+                </tr>
+            `).join("");
+        }
+
+        function renderEmprestimosAbertos(emprestimos) {
+            head.innerHTML = `
+                <tr>
+                    <th>ID</th>
+                    <th>Livro</th>
+                    <th>Leitor</th>
+                    <th>Data</th>
+                    <th>Acao</th>
+                </tr>
+            `;
+
+            if (!emprestimos.length) {
+                renderEmpty("Nenhum emprestimo aberto.", 5);
+                return;
+            }
+
+            body.innerHTML = emprestimos.map((item) => `
+                <tr>
+                    <td>#${item.id}</td>
+                    <td><strong>${escapeHtml(item.titulo)}</strong></td>
+                    <td>${escapeHtml(item.nome_aluno)}</td>
+                    <td>${item.data_emprestimo}</td>
+                    <td><button type="button" class="secondary" onclick="devolverLivro(${item.id})">Devolver</button></td>
+                </tr>
+            `).join("");
+        }
+
+        function renderEmpty(message, colspan = 7) {
+            body.innerHTML = `<tr><td colspan="${colspan}" class="empty">${message}</td></tr>`;
+        }
+
+        function editarLivro(livro) {
+            document.getElementById("livro-id").value = livro.id;
+            document.getElementById("titulo").value = livro.titulo;
+            document.getElementById("autor").value = livro.autor;
+            document.getElementById("editora").value = livro.editora;
+            document.getElementById("ano").value = livro.ano;
+            document.getElementById("estoque").value = livro.estoque;
+            document.getElementById("form-title").textContent = `Editar Livro #${livro.id}`;
+            document.getElementById("btn-save").textContent = "Atualizar Livro";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function abrirEmprestimo(id, titulo, estoque) {
+            if (Number(estoque) <= 0) {
+                mostrarAlerta("table-alert", "Livro sem estoque disponivel para emprestimo.", "error");
+                return;
+            }
+            document.getElementById("loan-livro-id").value = id;
+            document.getElementById("loan-livro-titulo").value = titulo;
+            document.getElementById("loan-nome").value = "";
+            modal.showModal();
+        }
+
+        async function confirmarEmprestimo(event) {
+            event.preventDefault();
+            try {
+                const data = await api("/emprestimos", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        livro_id: Number(document.getElementById("loan-livro-id").value),
+                        nome_aluno: document.getElementById("loan-nome").value.trim(),
+                    }),
+                });
+                modal.close();
+                mostrarAlerta("table-alert", data.mensagem, "success");
+                await carregarDados();
+            } catch (err) {
+                mostrarAlerta("table-alert", err.message, "error");
+            }
+        }
+
+        async function devolverLivro(id) {
+            try {
+                const data = await api("/devolucoes", {
+                    method: "POST",
+                    body: JSON.stringify({ emprestimo_id: id }),
+                });
+                mostrarAlerta("table-alert", data.mensagem, "success");
+                await carregarDados();
+            } catch (err) {
+                mostrarAlerta("table-alert", err.message, "error");
+            }
+        }
+
+        async function excluirLivro(id) {
+            if (!confirm(`Deseja excluir o livro ID ${id}?`)) return;
+            try {
+                const data = await api(`/livros/${id}`, { method: "DELETE" });
+                mostrarAlerta("table-alert", data.mensagem, "success");
+                await carregarDados();
+            } catch (err) {
+                mostrarAlerta("table-alert", err.message, "error");
+            }
+        }
+
+        function limparFormulario() {
+            form.reset();
+            document.getElementById("livro-id").value = "";
+            document.getElementById("form-title").textContent = "Cadastrar Novo Livro";
+            document.getElementById("btn-save").textContent = "Salvar Livro";
+        }
+
+        function ativarAba(view) {
+            document.querySelectorAll(".tab").forEach((tab) => {
+                tab.classList.toggle("active", tab.dataset.view === view);
+            });
+        }
+
+        function setApiStatus(online) {
+            return online;
+        }
+
+        function mostrarAlerta(id, message, type) {
+            const box = document.getElementById(id);
+            box.textContent = message;
+            box.className = `alert ${type}`;
+            window.clearTimeout(box.dataset.timer);
+            box.dataset.timer = window.setTimeout(() => limparAlerta(id), 4200);
+        }
+
+        function limparAlerta(id) {
+            const box = document.getElementById(id);
+            box.className = "alert";
+            box.textContent = "";
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? "")
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+    </script>
+</body>
+</html>
